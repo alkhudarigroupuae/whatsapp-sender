@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+
+node_modules
+
+backend/uploads
+backend/whatsapp/.session
+
+frontend/dist
+frontend/dist-ssr

@@ -1,0 +1,60 @@
+services:
+  - type: web
+    name: whatsapp-sender
+    env: node
+    plan: starter
+    healthCheckPath: /api/health
+    buildCommand: |
+      cd backend && npm ci
+      cd ../frontend && npm ci && npm run build
+      cd ../backend && npm run migrate
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: UPLOADS_DIR
+        value: /app/backend/uploads
+      - key: WHATSAPP_SESSION_PATH
+        value: /app/backend/uploads/wa_sessions
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: APP_BASE_URL
+        sync: false
+      - key: FREE_MONTHLY_LIMIT
+        sync: false
+      - key: PRO_MONTHLY_LIMIT
+        sync: false
+      - key: MAX_MESSAGES_PER_HOUR
+        sync: false
+      - key: MIN_DELAY_SECONDS
+        sync: false
+      - key: MAX_DELAY_SECONDS
+        sync: false
+      - key: MAX_RETRIES
+        sync: false
+      - key: AI_PROVIDER
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        sync: false
+      - key: GEMINI_MODEL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRICE_ID_PRO
+        sync: false
+    disk:
+      name: whatsapp-sender-disk
+      mountPath: /app/backend/uploads
+      sizeGB: 5
