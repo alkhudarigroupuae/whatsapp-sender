@@ -40,6 +40,13 @@ Persistence (important for WhatsApp sessions and uploads):
 - `UPLOADS_DIR=/var/lib/whatsapp-sender/uploads`
 - `WHATSAPP_SESSION_PATH=/var/lib/whatsapp-sender/wa_sessions`
 
+Browser notes (WhatsApp Web):
+- The website (UI) works in any browser (Safari/Firefox/Edge).
+- The backend uses a headless Chromium engine to keep WhatsApp logged in.
+- You can control this with:
+  - `WHATSAPP_HEADLESS=true` (default)
+  - `WHATSAPP_EXECUTABLE_PATH=/usr/bin/chromium` (if you install system Chromium)
+
 If you use Supabase:
 - `PGSSLMODE=require`
 

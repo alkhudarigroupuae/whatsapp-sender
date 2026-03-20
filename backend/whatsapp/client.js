@@ -31,15 +31,27 @@ function getQr(userId) {
   return getOrCreateState(userId).qr;
 }
 
+function parseBool(value, defaultValue) {
+  if (value == null || value === "") return defaultValue;
+  const s = String(value).trim().toLowerCase();
+  if (s === "1" || s === "true" || s === "yes" || s === "y") return true;
+  if (s === "0" || s === "false" || s === "no" || s === "n") return false;
+  return defaultValue;
+}
+
 function createClient(userId) {
   const safeUserId = sanitizeId(userId);
   const sessionBasePath = process.env.WHATSAPP_SESSION_PATH || path.join(__dirname, ".session");
   const dataPath = path.join(sessionBasePath, safeUserId);
 
+  const headless = parseBool(process.env.WHATSAPP_HEADLESS, true);
+  const executablePath = process.env.WHATSAPP_EXECUTABLE_PATH || process.env.PUPPETEER_EXECUTABLE_PATH;
+
   return new Client({
     authStrategy: new LocalAuth({ clientId: safeUserId, dataPath }),
     puppeteer: {
-      headless: true,
+      ...(executablePath ? { executablePath } : {}),
+      headless,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     },
   });
