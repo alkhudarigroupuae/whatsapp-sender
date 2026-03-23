@@ -52,7 +52,8 @@ export default async function handler(req, res) {
 
   res.status(upstream.status)
   upstream.headers.forEach((value, key) => {
-    if (key.toLowerCase() === 'transfer-encoding') return
+    const k = key.toLowerCase()
+    if (k === 'transfer-encoding' || k === 'content-encoding' || k === 'content-length') return
     res.setHeader(key, value)
   })
 
