@@ -13,7 +13,15 @@ export default async function handler(req, res) {
     return
   }
 
-  const path = Array.isArray(req.query.path) ? req.query.path.join('/') : String(req.query.path || '')
+  let path = Array.isArray(req.query.path) ? req.query.path.join('/') : String(req.query.path || '')
+  if (!path) {
+    try {
+      const p = new URL(req.url || '/', 'http://localhost').pathname || ''
+      path = p.replace(/^\/api\/?/, '')
+    } catch {
+      // ignore
+    }
+  }
   if (path === 'billing/webhook') {
     res.status(400).json({ error: 'Webhook must target backend directly' })
     return
