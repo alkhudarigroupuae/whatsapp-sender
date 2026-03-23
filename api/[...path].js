@@ -4,11 +4,11 @@
  * Set BACKEND_URL in Vercel — no trailing slash, no /api suffix. Leave VITE_API_BASE_URL unset for same-origin /api.
  */
 export default async function handler(req, res) {
-  const backendUrl = process.env.BACKEND_URL
+  const backendUrl = process.env.BACKEND_URL || 'http://76.13.179.65'
   if (!backendUrl) {
     res.status(500).json({
       error: 'Missing BACKEND_URL',
-      hint: 'In Vercel → Environment Variables, set BACKEND_URL to your backend origin (e.g. https://xxx.onrender.com).',
+      hint: 'In Vercel → Environment Variables, set BACKEND_URL to your backend origin (e.g. https://api.example.com).',
     })
     return
   }

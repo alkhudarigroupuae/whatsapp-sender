@@ -3,11 +3,11 @@
  * Duplicate of repo root api/[...path].js — used when Vercel Root Directory is `frontend`.
  */
 export default async function handler(req, res) {
-  const backendUrl = process.env.BACKEND_URL
+  const backendUrl = process.env.BACKEND_URL || 'http://76.13.179.65'
   if (!backendUrl) {
     res.status(500).json({
       error: 'Missing BACKEND_URL',
-      hint: 'In Vercel → Environment Variables, set BACKEND_URL to your backend origin (e.g. https://xxx.onrender.com).',
+      hint: 'In Vercel → Environment Variables, set BACKEND_URL to your backend origin (e.g. https://api.example.com).',
     })
     return
   }
