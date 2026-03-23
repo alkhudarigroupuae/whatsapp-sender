@@ -26,6 +26,30 @@ async function findUserById(id) {
   return res.rows[0] || null;
 }
 
+async function findUserByGoogleSub(sub) {
+  if (!sub) return null;
+  const res = await query("select * from users where google_sub = $1 limit 1", [String(sub)]);
+  return res.rows[0] || null;
+}
+
+async function createUserFromGoogle({ email, name, googleSub }) {
+  const res = await query(
+    `insert into users(email, name, password_hash, google_sub)
+     values ($1, $2, null, $3)
+     returning *`,
+    [normalizeEmail(email), String(name || "").trim(), String(googleSub)],
+  );
+  return res.rows[0];
+}
+
+async function setGoogleSub(userId, googleSub) {
+  const res = await query(
+    `update users set google_sub = $2, updated_at = now() where id = $1 returning *`,
+    [userId, String(googleSub)],
+  );
+  return res.rows[0] || null;
+}
+
 async function createUser({ email, name, passwordHash }) {
   const res = await query(
     `insert into users(email, name, password_hash)
@@ -99,6 +123,9 @@ module.exports = {
   toPublicUser,
   findUserByEmail,
   findUserById,
+  findUserByGoogleSub,
+  createUserFromGoogle,
+  setGoogleSub,
   createUser,
   setStripeCustomerId,
   setStripeFieldsByCustomerId,

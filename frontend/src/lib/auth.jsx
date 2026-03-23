@@ -43,12 +43,22 @@ export function AuthProvider({ children }) {
     return res.user
   }, [])
 
+  const signInWithGoogle = useCallback(async (credential) => {
+    const res = await apiFetch('/api/auth/google', { method: 'POST', body: { credential } })
+    setAuthToken(res.token)
+    setUser(res.user)
+    return res.user
+  }, [])
+
   const signOut = useCallback(() => {
     setAuthToken(null)
     setUser(null)
   }, [])
 
-  const value = useMemo(() => ({ user, loading, signIn, register, signOut, refresh }), [user, loading, signIn, register, signOut, refresh])
+  const value = useMemo(
+    () => ({ user, loading, signIn, register, signInWithGoogle, signOut, refresh }),
+    [user, loading, signIn, register, signInWithGoogle, signOut, refresh],
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

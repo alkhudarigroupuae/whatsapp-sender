@@ -72,6 +72,17 @@ Stripe webhooks and WhatsApp must hit **`YOUR_API_ORIGIN`**, not Vercel.
 - Failed or wrong deployment → check Vercel **Deployments**.
 - Wrong API wiring → recheck Mode A/B env vars; test **`YOUR_API_ORIGIN/api/health`** directly first.
 
+## Google sign-in (optional)
+
+1. [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials → **Create OAuth client ID** (Web application).
+2. **Authorized JavaScript origins:** `http://localhost:5173`, your Vercel URL `https://your-app.vercel.app`, and production domain if any.
+3. Copy the **Client ID** (ends with `.apps.googleusercontent.com`).
+4. Backend env: `GOOGLE_CLIENT_ID=<same id>`
+5. Frontend / Vercel env: `VITE_GOOGLE_CLIENT_ID=<same id>`
+6. Run migration `003_google_auth.sql` (`npm run migrate` in `backend`).
+
+Without these variables, the UI shows a short hint instead of the Google button.
+
 ## Local dev
 
 See **`README.md`**: `backend/.env` from `backend/.env.example`, `npm run migrate` + `npm run start`; `frontend` with `npm run dev` (proxies `/api` to port 4000).

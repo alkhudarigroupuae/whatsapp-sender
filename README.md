@@ -22,6 +22,8 @@ Create `backend/.env` (not committed) using `backend/.env.example` as reference.
 For a local demo without OpenAI/Gemini keys, set:
 - `AI_PROVIDER=mock`
 
+Optional **Google sign-in:** set `GOOGLE_CLIENT_ID` (backend) and `VITE_GOOGLE_CLIENT_ID` (frontend) to the same OAuth Web Client ID, then `npm run migrate` (includes `003_google_auth.sql`). See **`RUN_LIVE.md`**.
+
 ## AI setup (per-contact messages)
 Messages are generated per contact when you start a campaign.
 

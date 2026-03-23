@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card } from '../components/Card.jsx'
 import { Button } from '../components/Button.jsx'
+import { GoogleSignInButton } from '../components/GoogleSignInButton.jsx'
 import { useAuth } from '../lib/auth.jsx'
 
 export function Register() {
@@ -30,6 +31,10 @@ export function Register() {
   return (
     <div className="auth">
       <Card title="Create account" subtitle="Start with a safe monthly quota">
+        <GoogleSignInButton />
+        <div className="field-hint" style={{ textAlign: 'center', margin: '4px 0 14px' }}>
+          or register with email
+        </div>
         <form className="auth-form" onSubmit={onSubmit}>
           <label className="field">
             <div className="field-label">Name</div>
