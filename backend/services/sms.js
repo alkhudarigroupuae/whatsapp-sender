@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const twilio = require("twilio");
 
 let client = null;
@@ -24,7 +25,7 @@ function isSmsConfigured() {
 }
 
 function generateOtp() {
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const code = String(crypto.randomInt(100000, 1000000));
   return code;
 }
 
