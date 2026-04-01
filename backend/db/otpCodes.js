@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const { query } = require("./pool");
 
 async function createOtp(phone, code, expiresMinutes = 5) {
@@ -15,15 +16,21 @@ async function verifyOtp(phone, code) {
   const res = await query(
     `select * from otp_codes
      where phone = $1
-       and code = $2
        and verified = false
        and expires_at > now()
      order by created_at desc
      limit 1`,
-    [phone, code],
+    [phone],
   );
   const row = res.rows[0];
   if (!row) return null;
+
+  // Constant-time comparison to prevent timing attacks
+  const codeBuffer = Buffer.from(String(code));
+  const storedBuffer = Buffer.from(String(row.code));
+  if (codeBuffer.length !== storedBuffer.length || !crypto.timingSafeEqual(codeBuffer, storedBuffer)) {
+    return null;
+  }
 
   await query(`update otp_codes set verified = true where id = $1`, [row.id]);
   return row;

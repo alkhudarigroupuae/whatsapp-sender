@@ -142,7 +142,8 @@ router.post("/phone/send-otp", async (req, res) => {
   try {
     await sendSms(phone, `Your Sender Studio verification code is: ${code}`);
   } catch (err) {
-    return res.status(500).json({ error: `Failed to send SMS: ${err.message}` });
+    console.error("[send-otp] SMS delivery failed:", err.message);
+    return res.status(500).json({ error: "Failed to send SMS. Please try again later." });
   }
 
   res.json({ ok: true, message: "OTP sent" });
