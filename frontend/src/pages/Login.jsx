@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Card } from '../components/Card.jsx'
 import { Button } from '../components/Button.jsx'
 import { GoogleSignInButton } from '../components/GoogleSignInButton.jsx'
+import { PhoneSignInButton } from '../components/PhoneSignInButton.jsx'
 import { useAuth } from '../lib/auth.jsx'
 
 export function Login() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
+  const [tab, setTab] = useState('email') // 'email' | 'phone'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
@@ -31,36 +33,49 @@ export function Login() {
     <div className="auth">
       <Card title="Sign in" subtitle="Welcome back">
         <GoogleSignInButton />
-        <div className="field-hint" style={{ textAlign: 'center', margin: '4px 0 14px' }}>
-          or sign in with email
+
+        <div className="auth-tabs">
+          <button type="button" className={`auth-tab${tab === 'email' ? ' is-active' : ''}`} onClick={() => setTab('email')}>
+            Email
+          </button>
+          <button type="button" className={`auth-tab${tab === 'phone' ? ' is-active' : ''}`} onClick={() => setTab('phone')}>
+            Phone / SMS
+          </button>
         </div>
-        <form className="auth-form" onSubmit={onSubmit}>
-          <label className="field">
-            <div className="field-label">Email</div>
-            <input className="input" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
-          </label>
-          <label className="field">
-            <div className="field-label">Password</div>
-            <input
-              className="input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              required
-            />
-          </label>
-          {error && <div className="callout callout-danger">{error}</div>}
-          <div className="auth-actions">
-            <Button variant="primary" disabled={busy}>
-              {busy ? 'Signing in…' : 'Sign in'}
-            </Button>
-            <Button as={Link} to="/register" variant="ghost">
-              Create account
-            </Button>
-          </div>
-        </form>
+
+        {tab === 'email' && (
+          <form className="auth-form" onSubmit={onSubmit}>
+            <label className="field">
+              <div className="field-label">Email</div>
+              <input className="input" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
+            </label>
+            <label className="field">
+              <div className="field-label">Password</div>
+              <input
+                className="input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                required
+              />
+            </label>
+            {error && <div className="callout callout-danger">{error}</div>}
+            <div className="auth-actions">
+              <Button variant="primary" disabled={busy}>
+                {busy ? 'Signing in…' : 'Sign in'}
+              </Button>
+              <Button as={Link} to="/register" variant="ghost">
+                Create account
+              </Button>
+            </div>
+            <div className="auth-extra">
+              <Link to="/forgot-password" className="auth-link">Forgot password?</Link>
+            </div>
+          </form>
+        )}
+
+        {tab === 'phone' && <PhoneSignInButton />}
       </Card>
     </div>
   )
 }
-

@@ -50,14 +50,28 @@ export function AuthProvider({ children }) {
     return res.user
   }, [])
 
+  const signInWithPhone = useCallback(async (phone, code) => {
+    const res = await apiFetch('/api/auth/phone/verify-otp', { method: 'POST', body: { phone, code } })
+    setAuthToken(res.token)
+    setUser(res.user)
+    return res.user
+  }, [])
+
+  const resetPassword = useCallback(async (token, password) => {
+    const res = await apiFetch('/api/auth/reset-password', { method: 'POST', body: { token, password } })
+    setAuthToken(res.token)
+    setUser(res.user)
+    return res.user
+  }, [])
+
   const signOut = useCallback(() => {
     setAuthToken(null)
     setUser(null)
   }, [])
 
   const value = useMemo(
-    () => ({ user, loading, signIn, register, signInWithGoogle, signOut, refresh }),
-    [user, loading, signIn, register, signInWithGoogle, signOut, refresh],
+    () => ({ user, loading, signIn, register, signInWithGoogle, signInWithPhone, resetPassword, signOut, refresh }),
+    [user, loading, signIn, register, signInWithGoogle, signInWithPhone, resetPassword, signOut, refresh],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
