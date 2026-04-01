@@ -24,6 +24,8 @@ For a local demo without OpenAI/Gemini keys, set:
 
 Optional **Google sign-in:** set `GOOGLE_CLIENT_ID` (backend) and `VITE_GOOGLE_CLIENT_ID` (frontend) to the same OAuth Web Client ID, then `npm run migrate` (includes `003_google_auth.sql`). See **`RUN_LIVE.md`**.
 
+Optional **Phone / SMS sign-in:** set `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_PHONE_NUMBER` on the backend. Users can then sign in or register with their phone number via a 6-digit OTP code. Without these variables, the UI shows a configuration hint instead of the phone sign-in option.
+
 ## AI setup (per-contact messages)
 Messages are generated per contact when you start a campaign.
 

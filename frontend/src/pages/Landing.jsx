@@ -26,7 +26,7 @@ export function Landing() {
       <div className="landing-hero">
         <div className="landing-head">
           <div className="landing-kicker">WhatsApp marketing, safer by design</div>
-          <h1 className="landing-title">AI-personalized messages that don’t look automated</h1>
+          <h1 className="landing-title">AI-personalized messages that don't look automated</h1>
           <div className="landing-sub">
             Upload your client list, generate unique messages per contact, and send through a queue with random delays and rate limits.
           </div>
@@ -45,11 +45,8 @@ export function Landing() {
                 </Button>
               </>
             )}
-            <Button as={Link} to="/about" variant="ghost">
-              About
-            </Button>
-            <Button as={Link} to="/contact" variant="ghost">
-              Contact
+            <Button as={Link} to="/pricing" variant="ghost">
+              Pricing
             </Button>
           </div>
         </div>
@@ -98,6 +95,105 @@ export function Landing() {
             </div>
           </Card>
         </div>
+      </div>
+
+      {/* How it works */}
+      <div className="landing-section">
+        <div className="landing-section-head">
+          <div className="landing-section-kicker">How it works</div>
+          <h2 className="landing-section-title">Three steps to your first campaign</h2>
+        </div>
+        <div className="landing-steps">
+          <div className="landing-step">
+            <div className="landing-step-num">1</div>
+            <div className="landing-step-body">
+              <div className="landing-step-title">Import your leads</div>
+              <div className="landing-step-sub">
+                Upload a CSV or Excel file with your contacts. Phone numbers are normalized and duplicates blocked automatically.
+              </div>
+            </div>
+          </div>
+          <div className="landing-step">
+            <div className="landing-step-num">2</div>
+            <div className="landing-step-body">
+              <div className="landing-step-title">Write your offer once</div>
+              <div className="landing-step-sub">
+                Describe your product, promotion, and campaign idea. AI generates a unique message per contact — no copy-paste blasts.
+              </div>
+            </div>
+          </div>
+          <div className="landing-step">
+            <div className="landing-step-num">3</div>
+            <div className="landing-step-body">
+              <div className="landing-step-title">Send safely</div>
+              <div className="landing-step-sub">
+                The queue sends messages with random delays and hourly caps so your WhatsApp account stays safe. Monitor progress in real time.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features */}
+      <div className="landing-section">
+        <div className="landing-section-head">
+          <div className="landing-section-kicker">Features</div>
+          <h2 className="landing-section-title">Everything you need for WhatsApp outreach</h2>
+        </div>
+        <div className="landing-features">
+          <Card title="AI personalization" subtitle="OpenAI or Gemini">
+            <div className="mkt-copy">
+              Each contact receives a uniquely worded message. Choose GPT or Gemini as your AI engine.
+            </div>
+          </Card>
+          <Card title="Smart queue" subtitle="Rate-limited sending">
+            <div className="mkt-copy">
+              Built-in hourly caps and random delays between messages protect your account from bans.
+            </div>
+          </Card>
+          <Card title="Multi-auth" subtitle="Google, email, or phone">
+            <div className="mkt-copy">
+              Sign in with Google, email + password, or phone number with SMS verification code.
+            </div>
+          </Card>
+          <Card title="Media support" subtitle="Images, video, PDF, voice">
+            <div className="mkt-copy">
+              Attach images, videos, PDFs, or record voice notes directly in the campaign builder.
+            </div>
+          </Card>
+          <Card title="Stripe billing" subtitle="Free + Pro plans">
+            <div className="mkt-copy">
+              Start free with a monthly quota. Upgrade to Pro through Stripe for higher sending limits.
+            </div>
+          </Card>
+          <Card title="Tenant isolation" subtitle="Your data, only yours">
+            <div className="mkt-copy">
+              Contacts, campaigns, and logs are scoped per user in PostgreSQL. Zero cross-account leakage.
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="landing-cta">
+        <Card title="Ready to launch?" subtitle="Create your free account and send your first campaign today">
+          <div className="landing-actions" style={{ marginTop: 8 }}>
+            {user ? (
+              <Button as={Link} to="/app" variant="primary">
+                Open dashboard
+              </Button>
+            ) : (
+              <>
+                <Button as={Link} to="/register" variant="primary">
+                  Get started free
+                </Button>
+                <Button as={Link} to="/pricing" variant="ghost">
+                  See pricing
+                </Button>
+              </>
+            )}
+          </div>
+        </Card>
       </div>
     </div>
   )

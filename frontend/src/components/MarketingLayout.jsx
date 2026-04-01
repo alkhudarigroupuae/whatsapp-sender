@@ -33,6 +33,7 @@ export function MarketingLayout() {
 
           <nav className="mkt-nav">
             <MktLink to="/">Home</MktLink>
+            <MktLink to="/pricing">Pricing</MktLink>
             <MktLink to="/about">About</MktLink>
             <MktLink to="/contact">Contact</MktLink>
           </nav>
@@ -70,6 +71,9 @@ export function MarketingLayout() {
             <div className="mkt-foot-sub">Campaigns that feel human, delivered safely.</div>
           </div>
           <div className="mkt-foot-links">
+            <Link className="mkt-foot-link" to="/pricing">
+              Pricing
+            </Link>
             <Link className="mkt-foot-link" to="/about">
               About
             </Link>

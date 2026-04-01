@@ -10,6 +10,7 @@ function toPublicUser(row) {
     id: row.id,
     email: row.email,
     name: row.name,
+    phone: row.phone || null,
     plan: row.plan,
     stripeSubscriptionStatus: row.stripe_subscription_status || null,
   };
@@ -58,6 +59,43 @@ async function createUser({ email, name, passwordHash }) {
     [normalizeEmail(email), String(name || "").trim(), passwordHash],
   );
   return res.rows[0];
+}
+
+function normalizePhone(phone) {
+  return String(phone || "").replace(/[^\d+]/g, "").trim();
+}
+
+async function findUserByPhone(phone) {
+  const normalized = normalizePhone(phone);
+  if (!normalized) return null;
+  const res = await query("select * from users where phone = $1 limit 1", [normalized]);
+  return res.rows[0] || null;
+}
+
+async function createUserFromPhone({ phone, name }) {
+  const res = await query(
+    `insert into users(email, name, password_hash, phone)
+     values ($1, $2, null, $3)
+     returning *`,
+    [`phone_${Date.now()}@placeholder.local`, String(name || "User").trim(), normalizePhone(phone)],
+  );
+  return res.rows[0];
+}
+
+async function setUserPhone(userId, phone) {
+  const res = await query(
+    `update users set phone = $2, updated_at = now() where id = $1 returning *`,
+    [userId, normalizePhone(phone)],
+  );
+  return res.rows[0] || null;
+}
+
+async function setUserPassword(userId, passwordHash) {
+  const res = await query(
+    `update users set password_hash = $2, updated_at = now() where id = $1 returning *`,
+    [userId, passwordHash],
+  );
+  return res.rows[0] || null;
 }
 
 async function setStripeFieldsByCustomerId({
@@ -120,12 +158,17 @@ async function setStripeFieldsBySubscriptionId({ stripeSubscriptionId, stripeSub
 
 module.exports = {
   normalizeEmail,
+  normalizePhone,
   toPublicUser,
   findUserByEmail,
   findUserById,
   findUserByGoogleSub,
+  findUserByPhone,
   createUserFromGoogle,
+  createUserFromPhone,
   setGoogleSub,
+  setUserPhone,
+  setUserPassword,
   createUser,
   setStripeCustomerId,
   setStripeFieldsByCustomerId,

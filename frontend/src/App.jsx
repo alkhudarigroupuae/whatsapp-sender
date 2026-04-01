@@ -12,8 +12,11 @@ import { Admin } from './pages/Admin.jsx'
 import { Landing } from './pages/Landing.jsx'
 import { About } from './pages/About.jsx'
 import { Contact } from './pages/Contact.jsx'
+import { Pricing } from './pages/Pricing.jsx'
 import { Login } from './pages/Login.jsx'
 import { Register } from './pages/Register.jsx'
+import { ForgotPassword } from './pages/ForgotPassword.jsx'
+import { ResetPassword } from './pages/ResetPassword.jsx'
 import { useAuth } from './lib/auth.jsx'
 import { MarketingLayout } from './components/MarketingLayout.jsx'
 
@@ -30,9 +33,12 @@ function App() {
       <Route element={<MarketingLayout />}>
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Route>
 
       <Route
